@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-const API_BASE = "https://ec-course-api.hexschool.io/v2";
+const API_BASE = import.meta.env.VITE_BASE_URL;
+const API_PATH = import.meta.env.VITE_API_PATH;
 function App() {
   const loginFormData = { username: "", password: "" }
   const [formData, setFormData] = useState(loginFormData)
   const [isAuth, setIsAuth] = useState(false)
   const [products, setProducts] = useState([])
+
   const handleForm = (target) => {
     const { name, value } = target
     setFormData((prev) => (
@@ -16,7 +18,7 @@ function App() {
     ))
   }
   const getProduct = () => {
-    axios.get(`${API_BASE}/api/buch/admin/products/all`)
+    axios.get(`${API_BASE}/api/${API_PATH}/admin/products/all`)
       .then((res) => { setProducts(Object.values(res.data.products)) })
       .catch((err) => { console.log(err) })
   }
