@@ -165,7 +165,7 @@ function App() {
       :
       <>
         <label htmlFor="username"  >Account:</label>
-        <input type="text" name="username" onChange={(e) => { handleForm(e.target) }} />
+        <input type="email" name="username" onChange={(e) => { handleForm(e.target) }} />
         <label htmlFor="password">Password:</label>
         <input type="password" name="password" onChange={(e) => { handleForm(e.target) }} />
         <button type="button" onClick={(e) => { handleSubmit(e) }}>Submit</button>
