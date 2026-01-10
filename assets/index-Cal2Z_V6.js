@@ -41,4 +41,11 @@ Error generating stack: `+a.message+`
                     hover:bg-red-700
                     active:bg-red-800
                     transition
-                  `,onClick:()=>{ct(B.id)},children:"Delete"})]})]},B.id))})]})]}):J.jsxs(J.Fragment,{children:[J.jsx("label",{htmlFor:"username",children:"Account:"}),J.jsx("input",{className:yt,type:"email",name:"username",onChange:B=>{_(B.target)}}),J.jsx("label",{htmlFor:"password",children:"Password:"}),J.jsx("input",{className:yt,type:"password",name:"password",onChange:B=>{_(B.target)}}),J.jsx("button",{type:"button",onClick:B=>{S(B)},children:"Submit"})]})}M0.createRoot(document.getElementById("root")).render(J.jsx(ja.StrictMode,{children:J.jsx(i1,{})}));
+                  `,onClick:()=>{ct(B.id)},children:"Delete"})]})]},B.id))})]})]}):J.jsxs(J.Fragment,{children:[J.jsx("label",{htmlFor:"username",children:"Account:"}),J.jsx("input",{className:yt,type:"email",name:"username",onChange:B=>{_(B.target)}}),J.jsx("label",{htmlFor:"password",children:"Password:"}),J.jsx("input",{className:yt,type:"password",name:"password",onChange:B=>{_(B.target)}}),J.jsx("button",{className:`
+    px-4 py-2
+    rounded-md
+    bg-blue-600 text-white
+    hover:bg-blue-700
+    active:bg-blue-800
+    transition
+  `,type:"button",onClick:B=>{S(B)},children:"Submit"})]})}M0.createRoot(document.getElementById("root")).render(J.jsx(ja.StrictMode,{children:J.jsx(i1,{})}));
