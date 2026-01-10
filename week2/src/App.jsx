@@ -181,7 +181,7 @@ function App() {
             <th>名稱</th>
             <th>原價</th>
             <th>售價</th>
-            <th>原價</th>
+            <th>類別</th>
             <th>售價</th>
             <th>是否啟用</th>
             <th>操作</th>
@@ -228,9 +228,9 @@ function App() {
       :
       <>
         <label htmlFor="username"  >Account:</label>
-        <input type="email" name="username" onChange={(e) => { handleForm(e.target) }} />
+        <input className={inputClass} type="email" name="username" onChange={(e) => { handleForm(e.target) }} />
         <label htmlFor="password">Password:</label>
-        <input type="password" name="password" onChange={(e) => { handleForm(e.target) }} />
+        <input className={inputClass} type="password" name="password" onChange={(e) => { handleForm(e.target) }} />
         <button type="button" onClick={(e) => { handleSubmit(e) }}>Submit</button>
       </>
   );
