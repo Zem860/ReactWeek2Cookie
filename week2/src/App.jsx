@@ -102,7 +102,7 @@ function App() {
   }
 
   const goDelete = (id)=>{
-    axios.delete(`${API_BASE}/api/${API_PATH}/admin/product/${productData.id}`).then((res) => { getProduct() }).catch((err) => {
+    axios.delete(`${API_BASE}/api/${API_PATH}/admin/product/${id}`).then((res) => { getProduct() }).catch((err) => {
       console.log(err)})
   }
 
