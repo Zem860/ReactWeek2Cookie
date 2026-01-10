@@ -61,19 +61,20 @@ function App() {
   }, [])
   //-----------------------------------------------------------
   const [productData, setProductData] = useState({
-    id:0,
+    id: 0,
     title: "",
     origin_price: "",
     price: "",
     unit: "",
-    category: ""
+    category: "",
+    is_enabled: 1,
   })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProductData((prev) => ({
       ...prev,
-      [name]: name === "price" || name === "origin_price" ? Number(value) : value
+      [name]: name === "price" || name === "origin_price" || name === "is_enabled" ? Number(value) : value
     }))
 
 
@@ -92,7 +93,7 @@ function App() {
     setProductData(item)
   }
   const goEdit = () => {
-    
+
     const data = {
       data: productData
     }
@@ -101,66 +102,128 @@ function App() {
     })
   }
 
-  const goDelete = (id)=>{
+  const goDelete = (id) => {
     axios.delete(`${API_BASE}/api/${API_PATH}/admin/product/${id}`).then((res) => { getProduct() }).catch((err) => {
-      console.log(err)})
+      console.log(err)
+    })
   }
+
+  const inputClass = ` 
+    border border-gray-300
+    `
+
 
 
   return (
     isAuth ? <>
+      <div>
+        <label htmlFor="title">名稱</label>
+        <input className={inputClass} type="text" id="title" name="title" value={productData.title} onChange={(e) => { handleInputChange(e) }} />
+        <label htmlFor="origin_price">原價</label>
+        <input className={inputClass} id="origin_price" name="origin_price" type="number" value={productData.origin_price} onChange={(e) => { handleInputChange(e) }} />
+        <label htmlFor="price">售價</label>
+        <input className={inputClass} type="number" name="price" id="price" value={productData.price} onChange={(e) => { handleInputChange(e) }} />
+        <label htmlFor="unit">單位</label>
+        <input className={inputClass} type="text" name="unit" id="unit" value={productData.unit} onChange={(e) => { handleInputChange(e) }} />
+        <label htmlFor="category">種類</label>
+        <input className={inputClass} type="text" name="category" id="category" value={productData.category} onChange={(e) => { handleInputChange(e) }} />
+        <label>是否啟用</label>
 
-      <div className="flex justify-between">
-        <div >
-          <label htmlFor="title">名稱</label>
-          <input type="text" id="title" name="title" value={productData.title} onChange={(e) => { handleInputChange(e) }} />
-          <label htmlFor="origin_price">原價</label>
-          <input id="origin_price" name="origin_price" type="number" value={productData.origin_price} onChange={(e) => { handleInputChange(e) }} />
-          <label htmlFor="price">售價</label>
-          <input type="number" name="price" id="price" value={productData.price} onChange={(e) => { handleInputChange(e) }} />
-          <label htmlFor="unit">單位</label>
-          <input type="text" name="unit" id="unit" value={productData.unit} onChange={(e) => { handleInputChange(e) }} />
-          <label htmlFor="category">種類</label>
-          <input type="text" name="category" id="category" value={productData.category} onChange={(e) => { handleInputChange(e) }} />
-          <button onClick={() => {
+        <label>
+          <input
+            type="radio"
+            name="is_enabled"
+            value="1"
+            checked={productData.is_enabled === 1}
+            onChange={(e) => { handleInputChange(e) }}
+          />
+          啟用
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            name="is_enabled"
+            value="0"
+            checked={productData.is_enabled === 0}
+            onChange={(e) => { handleInputChange(e) }}
+          />
+          停用
+        </label>
+
+
+        <button className="
+    px-4 py-2
+    rounded-md
+    bg-blue-600 text-white
+    hover:bg-blue-700
+    active:bg-blue-800
+    transition
+  " onClick={() => {
             handleAddData()
           }}>新增商品</button>
-          <button onClick={()=>{goEdit()}}>
-            編輯商品
-          </button>
-        </div>
+        <button className="
+    px-4 py-2
+    rounded-md
+    bg-green-600 text-white
+    hover:bg-green-700
+    active:bg-green-800
+    transition
+  " onClick={() => { goEdit() }}>
+          編輯商品
+        </button>
+      </div>
 
-        <h2>產品列表</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>名稱</th>
-              <th>原價</th>
-              <th>售價</th>
-              <th>原價</th>
-              <th>售價</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((item) => (
-              <tr key={item.id}>
-                <td>{item.title}</td>
-                <td>{item.origin_price}</td>
-                <td>{item.price}</td>
-                <td>{item.category}</td>
-                <td>{item.unit}</td>
-                <td>
-                  <button onClick={() => { handleEditData(item) }}>Edit</button>
-                  <button onClick={()=>{
+      <h2>產品列表</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>名稱</th>
+            <th>原價</th>
+            <th>售價</th>
+            <th>原價</th>
+            <th>售價</th>
+            <th>是否啟用</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((item) => (
+            <tr key={item.id}>
+              <td>{item.title}</td>
+              <td>{item.origin_price}</td>
+              <td>{item.price}</td>
+              <td>{item.category}</td>
+              <td>{item.unit}</td>
+              <td className={item.is_enabled === 1 ? "text-blue-600" : "text-red-600"}>{item.is_enabled === 1 ? "是" : "否"}</td>
+              <td>
+                <button
+                  className="
+                    px-4 py-2
+                    rounded-md
+                    bg-gray-600 text-white
+                    hover:bg-gray-700
+                    active:bg-gray-800
+                    transition
+                  "
+                  onClick={() => { handleEditData(item) }}>Edit</button>
+                <button
+                  className="
+                    px-4 py-2
+                    rounded-md
+                    bg-red-600 text-white
+                    hover:bg-red-700
+                    active:bg-red-800
+                    transition
+                  "
+                  onClick={() => {
                     goDelete(item.id)
                   }}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
       :
       <>
