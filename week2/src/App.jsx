@@ -59,28 +59,108 @@ function App() {
   useEffect(() => {
     checkLogin();
   }, [])
+  //-----------------------------------------------------------
+  const [productData, setProductData] = useState({
+    id:0,
+    title: "",
+    origin_price: "",
+    price: "",
+    unit: "",
+    category: ""
+  })
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prev) => ({
+      ...prev,
+      [name]: name === "price" || name === "origin_price" ? Number(value) : value
+    }))
+
+
+  }
+  const handleAddData = () => {
+
+    const data = {
+      data: productData
+    }
+    axios.post(`${API_BASE}/api/${API_PATH}/admin/product`, data)
+      .then((res) => { getProduct() }).catch((err) => { console.log(err) })
+
+  }
+
+  const handleEditData = (item) => {
+    setProductData(item)
+  }
+  const goEdit = () => {
+    
+    const data = {
+      data: productData
+    }
+    axios.put(`${API_BASE}/api/${API_PATH}/admin/product/${productData.id}`, data).then((res) => { getProduct() }).catch((err) => {
+      console.log(err)
+    })
+  }
+
+  const goDelete = (id)=>{
+    axios.delete(`${API_BASE}/api/${API_PATH}/admin/product/${productData.id}`).then((res) => { getProduct() }).catch((err) => {
+      console.log(err)})
+  }
+
 
   return (
     isAuth ? <>
-      <h2>產品列表</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>名稱</th>
-            <th>原價</th>
-            <th>售價</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((item) => (
-            <tr key={item.id}>
-              <td>{item.title}</td>
-              <td>{item.origin_price}</td>
-              <td>{item.price}</td>
+
+      <div className="flex justify-between">
+        <div >
+          <label htmlFor="title">名稱</label>
+          <input type="text" id="title" name="title" value={productData.title} onChange={(e) => { handleInputChange(e) }} />
+          <label htmlFor="origin_price">原價</label>
+          <input id="origin_price" name="origin_price" type="number" value={productData.origin_price} onChange={(e) => { handleInputChange(e) }} />
+          <label htmlFor="price">售價</label>
+          <input type="number" name="price" id="price" value={productData.price} onChange={(e) => { handleInputChange(e) }} />
+          <label htmlFor="unit">單位</label>
+          <input type="text" name="unit" id="unit" value={productData.unit} onChange={(e) => { handleInputChange(e) }} />
+          <label htmlFor="category">種類</label>
+          <input type="text" name="category" id="category" value={productData.category} onChange={(e) => { handleInputChange(e) }} />
+          <button onClick={() => {
+            handleAddData()
+          }}>新增商品</button>
+          <button onClick={()=>{goEdit()}}>
+            編輯商品
+          </button>
+        </div>
+
+        <h2>產品列表</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>名稱</th>
+              <th>原價</th>
+              <th>售價</th>
+              <th>原價</th>
+              <th>售價</th>
+              <th>操作</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.map((item) => (
+              <tr key={item.id}>
+                <td>{item.title}</td>
+                <td>{item.origin_price}</td>
+                <td>{item.price}</td>
+                <td>{item.category}</td>
+                <td>{item.unit}</td>
+                <td>
+                  <button onClick={() => { handleEditData(item) }}>Edit</button>
+                  <button onClick={()=>{
+                    goDelete(item.id)
+                  }}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
       :
       <>
