@@ -231,7 +231,14 @@ function App() {
         <input className={inputClass} type="email" name="username" onChange={(e) => { handleForm(e.target) }} />
         <label htmlFor="password">Password:</label>
         <input className={inputClass} type="password" name="password" onChange={(e) => { handleForm(e.target) }} />
-        <button type="button" onClick={(e) => { handleSubmit(e) }}>Submit</button>
+        <button className="
+    px-4 py-2
+    rounded-md
+    bg-blue-600 text-white
+    hover:bg-blue-700
+    active:bg-blue-800
+    transition
+  " type="button" onClick={(e) => { handleSubmit(e) }}>Submit</button>
       </>
   );
 }
